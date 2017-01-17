@@ -1,62 +1,53 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
-{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
-{\colortbl;\red255\green255\blue255;\red170\green13\blue145;\red92\green38\blue153;\red196\green26\blue22;
-\red46\green13\blue110;\red0\green116\blue0;\red63\green110\blue116;}
-\margl1440\margr1440\vieww10800\viewh8400\viewkind0
-\deftab543
-\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+import UIKit
+import AVFoundation
 
-\f0\fs22 \cf2 \CocoaLigature0 import\cf0  UIKit\
-\cf2 import\cf0  AVFoundation\
-\
-\cf2 class\cf0  ViewController: \cf3 UIViewController\cf0  \{\
-    \
-    \cf2 let\cf0  soundFileNames = [\cf4 "light-saber-on"\cf0 , \cf4 "blaster-firing"\cf0 , \cf4 "chewy_roar"\cf0 , \cf4 "swvader02"\cf0 ]\
-    \cf2 var\cf0  audioPlayers = [\cf3 AVAudioPlayer\cf0 ]()\
-    \
-    \
-    \cf2 override\cf0  \cf2 func\cf0  viewDidLoad() \{\
-        \cf2 super\cf0 .\cf5 viewDidLoad\cf0 ()\
-        \cf6 // Do any additional setup after loading the view, typically from a nib.\
-\cf0         \
-        \cf6 //Set up audio players\
-\cf0         \cf2 for\cf0  sound \cf2 in\cf0  \cf7 soundFileNames\cf0  \{\
-            \
-             \cf2 do\cf0 \{\
-                \
-                \cf6 //Try to do\
-\cf0                 \cf2 let\cf0  url = \cf3 NSURL\cf0 (fileURLWithPath: \cf3 Bundle\cf0 .\cf3 main\cf0 .\cf5 path\cf0 (forResource: sound, ofType: \cf4 "wav"\cf0 )!);\
-                \cf2 let\cf0  audioPlayer = \cf2 try\cf0  \cf3 AVAudioPlayer\cf0 (contentsOf: url \cf2 as\cf0  \cf3 URL\cf0 )\
-                \
-                \cf7 audioPlayers\cf0 .\cf5 append\cf0 (audioPlayer)\
-                \
-            \
-            \
-               \
-             \} \cf2 catch\cf0  \{\
-                \
-                \cf6 //Catch thrown error\
-\cf0                 \cf7 audioPlayers\cf0 .\cf5 append\cf0 (\cf3 AVAudioPlayer\cf0 ())\
-            \}\
-    \
-    \
-    \
-            \}\
-    \
-    \}\
-    \cf2 override\cf0  \cf2 func\cf0  didReceiveMemoryWarning() \{\
-        \cf2 super\cf0 .\cf5 didReceiveMemoryWarning\cf0 ()\
-        \cf6 // Dispose of any resources that can be recreated.\
-\cf0     \}\
-    \
-    \cf2 @IBAction\cf0  \cf2 func\cf0  buttonTapped(\cf2 _\cf0  sender: \cf3 UIButton\cf0 ) \{\
-        \
-        \cf6 //Get the right button\
-\cf0         \cf2 let\cf0  audioPlayer = \cf7 audioPlayers\cf0 [sender.\cf3 tag\cf0 ]\
-        audioPlayer.\cf5 play\cf0 ()\
-    \}\
-    \
-    \}\
-\
-\
-}
+class ViewController: UIViewController {
+    
+    let soundFileNames = ["light-saber-on", "blaster-firing", "chewy_roar", "swvader02"]
+    var audioPlayers = [AVAudioPlayer]()
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        //Set up audio players
+        for sound in soundFileNames {
+            
+             do{
+                
+                //Try to do
+                let url = NSURL(fileURLWithPath: Bundle.main.path(forResource: sound, ofType: "wav")!);
+                let audioPlayer = try AVAudioPlayer(contentsOf: url as URL)
+                
+                audioPlayers.append(audioPlayer)
+                
+            
+            
+               
+             } catch {
+                
+                //Catch thrown error
+                audioPlayers.append(AVAudioPlayer())
+            }
+    
+    
+    
+            }
+    
+    }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func buttonTapped(_ sender: UIButton) {
+        
+        //Get the right button
+        let audioPlayer = audioPlayers[sender.tag]
+        audioPlayer.play()
+    }
+    
+    }
+
+
